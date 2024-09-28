@@ -1,6 +1,5 @@
 6. Write a short answer in README.md. In your README.md, write a short answer to the following questions:
-<br>
-<br>
+<br><br>
 
 - Did you use the same type of route to update patient information as to update an employee's department?
 <br><br>
