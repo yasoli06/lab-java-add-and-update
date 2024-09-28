@@ -1,9 +1,9 @@
 package com.springBoot.controller;
 
 
+import com.springBoot.DTO.EmployeeUpdateDTO;
 import com.springBoot.enums.StatusOfEmployee;
 import com.springBoot.model.Employee;
-import com.springBoot.repository.EmployeeRepository;
 import com.springBoot.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +45,10 @@ public class EmployeeController {
         return employeeService.createEmployee(employee);
     }
 
-    @PatchMapping("{id}")
-
+    @PatchMapping("/{id}")
+    public ResponseEntity<Employee> updateEmployeeStatus(@PathVariable Long id, @RequestBody EmployeeUpdateDTO employeeUpdateDTO){
+        Optional<Employee> updateEmployee = employeeService.updateEmployeeStatus(id, employeeUpdateDTO);
+        return updateEmployee.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
+    }
     }
 

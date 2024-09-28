@@ -1,11 +1,11 @@
 package com.springBoot.controller;
 
+import com.springBoot.DTO.PatienteUpdateDTO;
 import com.springBoot.model.Patient;
 import com.springBoot.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -48,8 +48,14 @@ public class PatientController {
     public List<Patient> getPatientsWithOffDoctor(){return patientService.getPatientsWithOffDoctor();}
 
     @PostMapping
-    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
+    public Patient createPatient(@RequestBody Patient patient){
         return patientService.createPatient(patient);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Patient> updatePatientStatus(@PathVariable Long id, @RequestBody PatienteUpdateDTO patientUpdateDTO){
+        Optional<Patient> updatePatient = patientService.updatePatientPartially(id, patientUpdateDTO);
+        return updatePatient.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 
 }

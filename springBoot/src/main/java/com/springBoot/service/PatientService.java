@@ -1,5 +1,6 @@
 package com.springBoot.service;
 
+import com.springBoot.DTO.PatienteUpdateDTO;
 import com.springBoot.model.Patient;
 import com.springBoot.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,37 @@ public class PatientService {
         return patientRepository.withOffDoctor();
     }
 
+    public Patient createPatient(Patient patient){
+        return patientRepository.save(patient);
+    }
+
+    public Optional<Patient> updatePatientPartially(Long id, PatienteUpdateDTO patientUpdateDTO){
+
+        Optional<Patient> patientOptional = patientRepository.findById(id);
+
+        if(patientOptional.isPresent() && patientUpdateDTO.getName() != null && patientUpdateDTO.getDateOfBirth() != null && patientUpdateDTO.getEmployeeId() != null){
+            Patient patient = patientOptional.get();
+            patient.setName(patientUpdateDTO.getName());
+            patient.setDateOfBirth(patientUpdateDTO.getDateOfBirth());
+            patient.setEmployeeId(patientUpdateDTO.getEmployeeId());
+            return Optional.of(patientRepository.save(patient));
+        }
+        else if(patientOptional.isPresent() && patientUpdateDTO.getName() != null){
+            Patient patient = patientOptional.get();
+            patient.setName(patientUpdateDTO.getName());
+            return Optional.of(patientRepository.save(patient));
+        }
+        else if(patientOptional.isPresent() && patientUpdateDTO.getDateOfBirth() != null){
+            Patient patient = patientOptional.get();
+            patient.setDateOfBirth(patientUpdateDTO.getDateOfBirth());
+            return Optional.of(patientRepository.save(patient));
+        }
+        else if(patientOptional.isPresent() && patientUpdateDTO.getEmployeeId() != null){
+            Patient patient = patientOptional.get();
+            patient.setEmployeeId(patientUpdateDTO.getEmployeeId());
+            return Optional.of(patientRepository.save(patient));
+        }
+
+        return Optional.empty();
+    }
 }

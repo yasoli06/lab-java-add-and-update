@@ -1,14 +1,12 @@
 package com.springBoot.service;
 
 
+import com.springBoot.DTO.EmployeeUpdateDTO;
 import com.springBoot.enums.StatusOfEmployee;
 import com.springBoot.model.Employee;
 import com.springBoot.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +33,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public ResponseEntity<Employee> updateEmployeeStatus(@PathVariable Long id, @RequestBody StatusOfEmployee newStatus){
+    public Optional<Employee> updateEmployeeStatus(Long id, EmployeeUpdateDTO employeeUpdateDTO){
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
 
         if(optionalEmployee.isPresent() && employeeUpdateDTO.getStatus() != null && employeeUpdateDTO.getDepartment() != null){
